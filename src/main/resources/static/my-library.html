@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Library | Libra.</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: white;
+
+            background:
+                    radial-gradient(
+                            circle at 15% 15%,
+                            rgba(80, 100, 255, 0.18),
+                            transparent 30%
+                    ),
+                    radial-gradient(
+                            circle at 85% 80%,
+                            rgba(150, 70, 255, 0.14),
+                            transparent 30%
+                    ),
+                    #07080d;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 82px;
+            padding: 0 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+
+            background: rgba(7,8,13,0.65);
+            backdrop-filter: blur(18px);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #7184ff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: #c9c9d4;
+
+            padding: 10px 17px;
+            border-radius: 11px;
+
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.08);
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition: 0.25s;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            background: rgba(255,255,255,0.09);
+            transform: translateY(-1px);
+        }
+
+        .cart-btn {
+            color: #d3ccff;
+            background: rgba(139,92,246,0.14);
+            border-color: rgba(139,92,246,0.28);
+        }
+
+        .cart-btn:hover {
+            background: rgba(139,92,246,0.25);
+        }
+
+        /* PAGE */
+
+        .page {
+            width: 88%;
+            max-width: 1150px;
+            margin: 55px auto 80px;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #858797;
+            text-decoration: none;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+
+            transition: 0.2s;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        .heading {
+            margin-bottom: 38px;
+        }
+
+        .eyebrow {
+            color: #8291ff;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 13px;
+        }
+
+        .heading h1 {
+            font-size: clamp(42px, 6vw, 64px);
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 14px;
+        }
+
+        .heading p {
+            color: #858693;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* BOOK LIST */
+
+        .books-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .borrowed-card {
+            display: grid;
+            grid-template-columns: 105px 1fr auto;
+
+            align-items: center;
+            gap: 25px;
+
+            padding: 20px;
+
+            border-radius: 20px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(255,255,255,0.065),
+                            rgba(255,255,255,0.025)
+                    );
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            transition: 0.25s;
+        }
+
+        .borrowed-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(130,140,255,0.22);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .book-cover {
+            width: 105px;
+            height: 145px;
+
+            border-radius: 9px;
+            overflow: hidden;
+
+            box-shadow:
+                    0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info h2 {
+            font-size: 24px;
+            letter-spacing: -0.7px;
+            margin-bottom: 7px;
+        }
+
+        .author {
+            color: #9697a4;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .detail {
+            padding: 8px 11px;
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+
+            color: #a5a6b2;
+            font-size: 12px;
+        }
+
+        .status {
+            color: #7ee3a5;
+            background: rgba(70,210,130,0.08);
+            border-color: rgba(70,210,130,0.16);
+        }
+
+        .return-btn {
+            min-width: 135px;
+
+            padding: 13px 18px;
+
+            border-radius: 11px;
+
+            border: 1px solid rgba(255,120,120,0.22);
+
+            background: rgba(255,90,100,0.08);
+
+            color: #ff9da5;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .return-btn:hover {
+            background: rgba(255,90,100,0.15);
+            transform: translateY(-1px);
+        }
+
+        .return-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* EMPTY STATE */
+
+        .empty {
+            display: none;
+
+            padding: 75px 25px;
+
+            text-align: center;
+
+            border-radius: 24px;
+
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 18px;
+        }
+
+        .empty h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #858693;
+            margin-bottom: 25px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+
+            padding: 13px 20px;
+
+            border-radius: 11px;
+
+            background: linear-gradient(
+                    135deg,
+                    #7186ff,
+                    #9a61ff
+            );
+
+            color: white;
+            text-decoration: none;
+
+            font-weight: 800;
+            font-size: 14px;
+
+            transition: 0.25s;
+        }
+
+        .browse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(105,110,255,0.25);
+        }
+
+        /* LOADING */
+
+        .loading {
+            min-height: 40vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #777988;
+        }
+
+        /* ERROR */
+
+        .error {
+            display: none;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            background: rgba(255,80,100,0.08);
+            border: 1px solid rgba(255,80,100,0.18);
+
+            color: #ff9da5;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 750px) {
+
+            .borrowed-card {
+                grid-template-columns: 85px 1fr;
+            }
+
+            .book-cover {
+                width: 85px;
+                height: 120px;
+            }
+
+            .return-btn {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            nav {
+                height: 70px;
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .nav-btn {
+                padding: 9px 12px;
+                font-size: 12px;
+            }
+
+            .page {
+                width: 92%;
+                margin-top: 35px;
+            }
+
+            .heading h1 {
+                font-size: 43px;
+            }
+
+            .borrowed-card {
+                grid-template-columns: 70px 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .book-cover {
+                width: 70px;
+                height: 100px;
+            }
+
+            .book-info h2 {
+                font-size: 18px;
+            }
+
+            .details {
+                gap: 6px;
+            }
+
+            .detail {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        Libra<span>.</span>
+    </div>
+
+    <div class="nav-right">
+
+        <a
+                href="/index.html#books"
+                class="nav-btn"
+        >
+            Books
+        </a>
+
+        <a
+                href="/cart.html"
+                class="nav-btn cart-btn"
+        >
+            🛒 Cart
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="page">
+
+    <a
+            href="/index.html#books"
+            class="back"
+    >
+        ← Back to Books
+    </a>
+
+
+    <div class="heading">
+
+        <div class="eyebrow">
+            YOUR COLLECTION
+        </div>
+
+        <h1>
+            My Library
+        </h1>
+
+        <p>
+            Books you're currently borrowing from Libra.
+        </p>
+
+    </div>
+
+
+    <div
+            id="loading"
+            class="loading"
+    >
+        Loading your library...
+    </div>
+
+
+    <div
+            id="error"
+            class="error"
+    >
+        Could not load your borrowed books.
+        Please try again.
+    </div>
+
+
+    <div
+            id="booksList"
+            class="books-list"
+            style="display:none;"
+    >
+    </div>
+
+
+    <div
+            id="empty"
+            class="empty"
+    >
+
+        <div class="empty-icon">
+            📚
+        </div>
+
+        <h2>
+            Your library is empty
+        </h2>
+
+        <p>
+            You haven't borrowed any books yet.
+            Find something you love and start reading.
+        </p>
+
+        <a
+                href="/index.html#books"
+                class="browse-btn"
+        >
+            Browse Books →
+        </a>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const bookImages = {
+        "The Alchemist": "/images/alchemist.jpg",
+        "Atomic Habits": "/images/atomic-habits.jpeg",
+        "Rich Dad Poor Dad": "/images/rich-dad-poor-dad.jpeg",
+        "The Psychology of Money": "/images/psychology-of-money.jpg",
+        "Harry Potter and the Philosopher's Stone": "/images/harry-potter.jpeg",
+        "Ikigai": "/images/ikigai.jpeg",
+        "The Great Gatsby": "/images/great-gatsby.jpeg",
+        "Think and Grow Rich": "/images/think-and-grow-rich.jpeg",
+        "The Hobbit": "/images/the-hobbit.jpeg",
+        "Sapiens": "/images/sapiens.png",
+        "The Kite Runner": "/images/kit-runner.jpeg",
+        "The Book Thief": "/images/book-thief.jpeg",
+        "Can't Hurt Me": "/images/cant-hurt-me.jpeg"
+    };
+
+
+    async function loadBorrowedBooks() {
+
+        const loggedInUser =
+            JSON.parse(
+                localStorage.getItem("loggedInUser")
+            );
+
+
+        if (!loggedInUser) {
+
+            window.location.href =
+                "/login.html";
+
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                `/borrowings/user/${loggedInUser.id}`
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not load borrowings"
+                );
+
+            }
+
+
+            const borrowings =
+                await response.json();
+
+
+            document.getElementById("loading")
+                .style.display = "none";
+
+
+            if (borrowings.length === 0) {
+
+                document.getElementById("empty")
+                    .style.display = "block";
+
+                return;
+            }
+
+
+            displayBorrowings(borrowings);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("loading")
+                .style.display = "none";
+
+            document.getElementById("error")
+                .style.display = "block";
+
+        }
+
+    }
+
+
+    function displayBorrowings(borrowings) {
+
+        const container =
+            document.getElementById("booksList");
+
+
+        container.innerHTML = "";
+
+
+        borrowings.forEach(borrowing => {
+
+            const book =
+                borrowing.book;
+
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "borrowed-card";
+
+
+            const image =
+                bookImages[book.title] ||
+                "/images/default-book.jpg";
+
+
+            card.innerHTML = `
+
+                <div class="book-cover">
+
+                    <img
+                        src="${image}"
+                        alt="${book.title}"
+                    >
+
+                </div>
+
+
+                <div class="book-info">
+
+                    <h2>
+                        ${book.title}
+                    </h2>
+
+                    <div class="author">
+                        by ${book.author}
+                    </div>
+
+                    <div class="details">
+
+                        <span class="detail">
+                            Borrowed:
+                            ${formatDate(
+                borrowing.borrowedDate
+            )}
+                        </span>
+
+                        <span class="detail status">
+                            ● Currently Borrowed
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="return-btn"
+                    onclick="returnBook(${borrowing.id}, this)"
+                >
+                    ↩ Return Book
+                </button>
+
+            `;
+
+
+            container.appendChild(card);
+
+        });
+
+
+        container.style.display =
+            "flex";
+
+    }
+
+
+    async function returnBook(
+        borrowingId,
+        button
+    ) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to return this book?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "Returning...";
+
+
+        try {
+
+            const response = await fetch(
+                `/borrowings/return/${borrowingId}`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not return book"
+                );
+
+            }
+
+
+            button.textContent =
+                "✓ Returned";
+
+
+            setTimeout(() => {
+
+                loadBorrowedBooks();
+
+            }, 600);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            button.disabled = false;
+
+            button.textContent =
+                "↩ Return Book";
+
+            alert(
+                "Could not return the book. Please try again."
+            );
+
+        }
+
+    }
+
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+            return "—";
+        }
+
+
+        const date =
+            new Date(
+                dateString + "T00:00:00"
+            );
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    loadBorrowedBooks();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Details | Libra.</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background:
+                    radial-gradient(circle at 15% 20%, rgba(75, 90, 255, 0.18), transparent 30%),
+                    radial-gradient(circle at 85% 75%, rgba(150, 70, 255, 0.14), transparent 30%),
+                    #07080d;
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 82px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(7,8,13,0.65);
+            backdrop-filter: blur(18px);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #7184ff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cart-btn {
+            text-decoration: none;
+            color: #d3ccff;
+            background: rgba(139, 92, 246, 0.14);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 10px 17px;
+            border-radius: 11px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .cart-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-1px);
+        }
+
+        /* MAIN */
+
+        .page {
+            width: 88%;
+            max-width: 1150px;
+            margin: 55px auto 80px;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #858797;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 35px;
+            transition: 0.2s;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        .details-card {
+            position: relative;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 70px;
+            padding: 55px;
+
+            border-radius: 30px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(255,255,255,0.065),
+                            rgba(255,255,255,0.025)
+                    );
+
+            border: 1px solid rgba(255,255,255,0.09);
+
+            box-shadow:
+                    0 30px 90px rgba(0,0,0,0.4);
+
+            overflow: hidden;
+        }
+
+        .details-card::before {
+            content: "";
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: rgba(91, 105, 255, 0.12);
+            filter: blur(100px);
+            top: -250px;
+            left: -200px;
+            pointer-events: none;
+        }
+
+        /* COVER */
+
+        .cover-section {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-glow {
+            position: absolute;
+            width: 260px;
+            height: 320px;
+            background: rgba(102, 115, 255, 0.25);
+            filter: blur(65px);
+            border-radius: 50%;
+        }
+
+        .book-cover {
+            position: relative;
+            z-index: 2;
+            width: 280px;
+            height: 405px;
+            border-radius: 12px;
+            overflow: hidden;
+
+            box-shadow:
+                    0 35px 60px rgba(0,0,0,0.55),
+                    0 0 0 1px rgba(255,255,255,0.08);
+
+            animation: floatBook 4s ease-in-out infinite;
+        }
+
+        @keyframes floatBook {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(0.5deg);
+            }
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* INFO */
+
+        .info {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .eyebrow {
+            color: #8492ff;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .info h1 {
+            font-size: clamp(42px, 5vw, 64px);
+            line-height: 1;
+            letter-spacing: -2.5px;
+            margin-bottom: 14px;
+        }
+
+        .author {
+            color: #a1a2af;
+            font-size: 18px;
+            margin-bottom: 28px;
+        }
+        .description {
+            color: #b7b8c5;
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin-bottom: 25px;
+        }
+
+        .availability {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+            border-radius: 100px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            background: rgba(70, 210, 130, 0.09);
+            border: 1px solid rgba(70, 210, 130, 0.18);
+            color: #7ee3a5;
+
+            margin-bottom: 32px;
+        }
+
+        .availability.unavailable {
+            background: rgba(255, 90, 100, 0.09);
+            border-color: rgba(255, 90, 100, 0.18);
+            color: #ff929b;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .meta-box {
+            padding: 17px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .meta-label {
+            color: #727482;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 7px;
+        }
+
+        .meta-value {
+            color: #dedee5;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        /* BUTTONS */
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .add-btn {
+            flex: 1;
+            border: none;
+            border-radius: 13px;
+            padding: 16px 22px;
+
+            background: linear-gradient(
+                    135deg,
+                    #7086ff,
+                    #9a61ff
+            );
+
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+
+            box-shadow:
+                    0 12px 30px rgba(105,110,255,0.22);
+
+            transition: 0.25s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                    0 17px 35px rgba(105,110,255,0.32);
+        }
+
+        .add-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .home-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 16px 20px;
+
+            border-radius: 13px;
+
+            color: #c3c4cf;
+            text-decoration: none;
+
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
+
+            transition: 0.25s;
+        }
+
+        .home-btn:hover {
+            background: rgba(255,255,255,0.09);
+            color: white;
+        }
+        /* =========================
+   WISHLIST BUTTON
+   ========================= */
+
+        .wishlist-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            width: 100%;
+            margin-top: 12px;
+
+            padding: 14px 20px;
+
+            border-radius: 13px;
+
+            color: #d7d8e3;
+            background: rgba(255, 255, 255, 0.045);
+
+            border: 1px solid rgba(255, 255, 255, 0.09);
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+        .wishlist-btn:hover {
+            background: rgba(255, 90, 130, 0.10);
+            border-color: rgba(255, 90, 130, 0.30);
+            color: #ff8ba7;
+
+            transform: translateY(-2px);
+        }
+
+        .wishlist-btn.wishlisted {
+            background: rgba(255, 75, 115, 0.12);
+            border-color: rgba(255, 75, 115, 0.35);
+            color: #ff6f91;
+        }
+
+        .wishlist-heart {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* LOADING */
+
+        .loading {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777988;
+            font-size: 15px;
+        }
+
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background: #7c8cff;
+            border-radius: 50%;
+            margin-left: 8px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ERROR */
+
+        .error {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .error h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .error p {
+            color: #858693;
+            margin-bottom: 25px;
+        }
+
+        .error a {
+            color: white;
+            background: #7185ff;
+            padding: 12px 20px;
+            border-radius: 11px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .details-card {
+                grid-template-columns: 1fr;
+                gap: 45px;
+                padding: 40px;
+            }
+
+            .cover-section {
+                min-height: 430px;
+            }
+
+            .info h1 {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            nav {
+                height: 70px;
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .page {
+                width: 92%;
+                margin-top: 30px;
+            }
+
+            .details-card {
+                padding: 25px;
+                border-radius: 22px;
+            }
+
+            .book-cover {
+                width: 220px;
+                height: 320px;
+            }
+
+            .cover-section {
+                min-height: 350px;
+            }
+
+            .info h1 {
+                font-size: 39px;
+            }
+
+            .meta {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+            .borrow-btn {
+                background: rgba(255, 255, 255, 0.08);
+                color: #ffffff;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                transition: all 0.3s ease;
+            }
+
+            .borrow-btn:hover {
+                background: rgba(255, 255, 255, 0.15);
+                transform: translateY(-2px);
+            }
+
+            .borrow-btn:active {
+                transform: translateY(0);
+            }
+
+            .borrow-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        Libra<span>.</span>
+    </div>
+
+    <div class="nav-right">
+
+        <a href="/cart.html" class="cart-btn">
+            🛒 Cart
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="page">
+
+    <div id="loading" class="loading">
+        Loading book
+        <span class="loading-dot"></span>
+    </div>
+
+
+    <div id="error" class="error" style="display:none;">
+
+        <h2>Book not found</h2>
+
+        <p>
+            We couldn't find the book you're looking for.
+        </p>
+
+        <a href="/index.html#books">
+            ← Back to Books
+        </a>
+
+    </div>
+
+
+    <section
+            id="details"
+            class="details-card"
+            style="display:none;"
+    >
+
+        <div class="cover-section">
+
+            <div class="cover-glow"></div>
+
+            <div class="book-cover">
+
+                <img
+                        id="bookImage"
+                        src=""
+                        alt=""
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="info">
+
+            <a
+                    href="/index.html#books"
+                    class="back"
+            >
+                ← Back to Books
+            </a>
+
+            <div class="eyebrow">
+                LIBRA COLLECTION
+            </div>
+
+            <h1 id="bookTitle"></h1>
+
+            <div
+                    id="bookAuthor"
+                    class="author">
+            </div>
+
+            <div id="bookDescription" class="description">
+            </div>
+
+            <div
+                    id="availability"
+                    class="availability">
+            </div>
+
+            <div class="meta">
+
+                <div class="meta-box">
+
+                    <div class="meta-label">
+                        ISBN
+                    </div>
+
+                    <div
+                            id="bookIsbn"
+                            class="meta-value">
+                    </div>
+
+                </div>
+
+
+                <div class="meta-box">
+
+                    <div class="meta-label">
+                        Book ID
+                    </div>
+
+                    <div
+                            id="bookId"
+                            class="meta-value">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+                <button
+                        id="addButton"
+                        class="add-btn"
+                        onclick="addToCart()"
+                >
+                    Add to Cart
+                </button>
+
+                <button
+                        id="borrowButton"
+                        class="add-btn borrow-btn"
+                        onclick="borrowBook()"
+                >
+                    Borrow Book
+                </button>
+
+                <a
+                        href="/index.html#books"
+                        class="home-btn"
+                >
+                    Browse Books
+                </a>
+                <button
+                        id="wishlistButton"
+                        class="wishlist-btn"
+                        onclick="toggleWishlist()"
+                >
+                    <span class="wishlist-heart">♡</span>
+                    <span id="wishlistText">Add to Wishlist</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+    async function borrowBook() {
+
+        const loggedInUser =
+            JSON.parse(localStorage.getItem("loggedInUser"));
+
+        if (!loggedInUser) {
+            alert("Please login before borrowing a book.");
+            window.location.href = "/login.html";
+            return;
+        }
+
+        if (!currentBook || !currentBook.id) {
+            alert("Book information is not available.");
+            return;
+        }
+
+        if (!currentBook.available) {
+            alert("This book is currently unavailable.");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                `/borrowings/borrow?userId=${loggedInUser.id}&bookId=${currentBook.id}`,
+                {
+                    method: "POST"
+                }
+            );
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+
+            const borrowing = await response.json();
+
+            alert("Book borrowed successfully! 📚");
+
+            // Reload the book so availability changes immediately
+            loadBook();
+
+        } catch (error) {
+
+            console.error("Error borrowing book:", error);
+
+            alert("Could not borrow this book.");
+        }
+    }
+
+    const bookImages = {
+        "The Alchemist": "/images/alchemist.jpg",
+        "Atomic Habits": "/images/atomic-habits.jpeg",
+        "Rich Dad Poor Dad": "/images/rich-dad-poor-dad.jpeg",
+        "The Psychology of Money": "/images/psychology-of-money.jpg",
+        "Harry Potter and the Philosopher's Stone": "/images/harry-potter.jpeg",
+        "Ikigai": "/images/ikigai.jpeg",
+        "The Great Gatsby": "/images/great-gatsby.jpeg",
+        "Think and Grow Rich": "/images/think-and-grow-rich.jpeg",
+        "The Hobbit": "/images/the-hobbit.jpeg",
+        "Sapiens": "/images/sapiens.png",
+        "The Kite Runner": "/images/kit-runner.jpeg",
+        "The Book Thief": "/images/book-thief.jpeg",
+        "Can't Hurt Me": "/images/cant-hurt-me.jpeg"
+    };
+
+
+    let currentBook = null;
+
+
+    async function loadBook() {
+
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
+        const bookId = params.get("id");
+
+
+        if (!bookId) {
+
+            showError();
+
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                `/books/${bookId}`
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error("Book not found");
+
+            }
+
+
+            currentBook = await response.json();
+
+            displayBook(currentBook);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showError();
+
+        }
+
+    }
+    // =========================
+    // WISHLIST
+    // =========================
+
+    function getWishlist() {
+
+        return JSON.parse(
+            localStorage.getItem("wishlist") || "[]"
+        );
+
+    }
+
+
+    function saveWishlist(wishlist) {
+
+        localStorage.setItem(
+            "wishlist",
+            JSON.stringify(wishlist)
+        );
+
+    }
+
+
+    function toggleWishlist() {
+
+        if (!currentBook || !currentBook.id) {
+
+            alert("Book information is not available.");
+
+            return;
+        }
+
+
+        let wishlist = getWishlist();
+
+
+        const existingIndex =
+            wishlist.findIndex(
+                book => book.id === currentBook.id
+            );
+
+
+        if (existingIndex !== -1) {
+
+            wishlist.splice(existingIndex, 1);
+
+        } else {
+
+            wishlist.push({
+
+                id: currentBook.id,
+                title: currentBook.title,
+                author: currentBook.author,
+                isbn: currentBook.isbn,
+                price: currentBook.price,
+                description: currentBook.description
+
+            });
+
+        }
+
+
+        saveWishlist(wishlist);
+
+        updateWishlistButton();
+
+    }
+
+
+    function updateWishlistButton() {
+
+        if (!currentBook) {
+            return;
+        }
+
+
+        const wishlist =
+            getWishlist();
+
+
+        const isWishlisted =
+            wishlist.some(
+                book => book.id === currentBook.id
+            );
+
+
+        const button =
+            document.getElementById("wishlistButton");
+
+        const heart =
+            button.querySelector(".wishlist-heart");
+
+        const text =
+            document.getElementById("wishlistText");
+
+
+        if (isWishlisted) {
+
+            button.classList.add("wishlisted");
+
+            heart.textContent = "♥";
+
+            text.textContent =
+                "Wishlisted";
+
+        } else {
+
+            button.classList.remove("wishlisted");
+
+            heart.textContent = "♡";
+
+            text.textContent =
+                "Add to Wishlist";
+
+        }
+
+    }
+
+
+    function displayBook(book) {
+
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("details").style.display = "grid";
+
+
+        document.getElementById("bookTitle").textContent =
+            book.title;
+
+
+        document.getElementById("bookAuthor").textContent =
+            `by ${book.author}`;
+
+        document.getElementById("bookDescription").textContent =
+            book.description || "No description available.";
+
+        updateWishlistButton();
+
+        document.getElementById("bookIsbn").textContent =
+            book.isbn;
+
+
+        document.getElementById("bookId").textContent =
+            book.id;
+
+
+        const image =
+            bookImages[book.title];
+
+
+        document.getElementById("bookImage").src =
+            image || "/images/default-book.jpg";
+
+
+        const availability =
+            document.getElementById("availability");
+
+
+        if (book.available) {
+
+            availability.textContent =
+                "● Available";
+
+            availability.classList.remove(
+                "unavailable"
+            );
+
+        } else {
+
+            availability.textContent =
+                "● Currently unavailable";
+
+            availability.classList.add(
+                "unavailable"
+            );
+
+            document.getElementById("addButton").disabled =
+                true;
+
+        }
+
+    }
+
+
+    async function addToCart() {
+
+        const cartId =
+            localStorage.getItem("cartId");
+
+
+        if (!cartId) {
+
+            alert(
+                "Please login or signup before adding books to your cart."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            return;
+        }
+
+
+        const button =
+            document.getElementById("addButton");
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "Adding...";
+
+
+        try {
+
+            const response = await fetch(
+                `/cart/${cartId}/add?bookId=${currentBook.id}&quantity=1`,
+                {
+                    method: "POST"
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not add book"
+                );
+
+            }
+
+
+            const cart =
+                await response.json();
+
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+
+            button.textContent =
+                "✓ Added to Cart";
+
+
+            setTimeout(() => {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "🛒 Add Again";
+
+            }, 1500);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            button.disabled = false;
+
+            button.textContent =
+                "🛒 Add to Cart";
+
+            alert(
+                "Could not add this book to your cart."
+            );
+
+        }
+
+    }
+
+
+    function showError() {
+
+        document.getElementById("loading").style.display =
+            "none";
+
+        document.getElementById("details").style.display =
+            "none";
+
+        document.getElementById("error").style.display =
+            "flex";
+
+    }
+
+
+    loadBook();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Libra.</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                    radial-gradient(circle at 15% 20%, rgba(70, 90, 255, 0.18), transparent 30%),
+                    radial-gradient(circle at 85% 80%, rgba(130, 70, 255, 0.14), transparent 30%),
+                    #07080d;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Background glow */
+
+        .glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(77, 95, 255, 0.12);
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        .glow.one {
+            top: -150px;
+            left: -100px;
+        }
+
+        .glow.two {
+            bottom: -150px;
+            right: -100px;
+        }
+
+        /* Main container */
+
+        .login-wrapper {
+            width: min(1050px, 92%);
+            min-height: 620px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: rgba(18, 19, 28, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            box-shadow:
+                    0 30px 100px rgba(0, 0, 0, 0.55),
+                    inset 0 1px rgba(255, 255, 255, 0.05);
+
+            backdrop-filter: blur(20px);
+
+            animation: appear 0.7s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Left panel */
+
+        .visual-panel {
+            position: relative;
+            padding: 55px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            background:
+                    linear-gradient(
+                            145deg,
+                            rgba(38, 48, 100, 0.65),
+                            rgba(11, 12, 20, 0.85)
+                    );
+
+            overflow: hidden;
+        }
+
+        .visual-panel::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+
+            background: radial-gradient(
+                    circle,
+                    rgba(90, 105, 255, 0.25),
+                    transparent 65%
+            );
+
+            top: -220px;
+            left: -200px;
+        }
+
+        .logo {
+            position: relative;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #6575ff;
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .visual-content .small-text {
+            color: #9ca1b5;
+            font-size: 14px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .visual-content h1 {
+            font-size: clamp(38px, 4vw, 58px);
+            line-height: 1.02;
+            letter-spacing: -2px;
+            margin-bottom: 22px;
+        }
+
+        .visual-content h1 span {
+            color: #7080ff;
+        }
+
+        .visual-content p {
+            max-width: 390px;
+            color: #a8acbd;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .quote {
+            position: relative;
+            z-index: 2;
+
+            border-left: 2px solid #6474ff;
+            padding-left: 18px;
+
+            color: #aeb2c2;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .quote strong {
+            display: block;
+            color: white;
+            margin-top: 8px;
+        }
+
+        /* Right panel */
+
+        .form-panel {
+            padding: 60px 65px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 38px;
+        }
+
+        .form-header h2 {
+            font-size: 34px;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #8f93a5;
+            font-size: 14px;
+        }
+
+        /* Inputs */
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 9px;
+
+            font-size: 13px;
+            font-weight: 600;
+            color: #c5c8d5;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            height: 52px;
+
+            padding: 0 48px 0 17px;
+
+            border-radius: 13px;
+            border: 1px solid #292c3a;
+
+            outline: none;
+
+            background: #101119;
+            color: white;
+
+            font-size: 14px;
+
+            transition: 0.25s;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #5f6373;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #6373ff;
+
+            box-shadow:
+                    0 0 0 3px rgba(99, 115, 255, 0.12);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 17px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #656a7c;
+            font-size: 17px;
+        }
+
+        .password-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .password-toggle:hover {
+            color: #8290ff;
+        }
+
+        /* Login button */
+
+        .login-btn {
+            width: 100%;
+            height: 53px;
+
+            margin-top: 10px;
+
+            border: none;
+            border-radius: 13px;
+
+            background: linear-gradient(
+                    135deg,
+                    #6575ff,
+                    #5364ed
+            );
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                    0 10px 25px rgba(83, 100, 237, 0.25);
+
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                    0 15px 30px rgba(83, 100, 237, 0.35);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Error */
+
+        .error-message {
+            display: none;
+
+            margin-top: 15px;
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            background: rgba(255, 70, 70, 0.08);
+            border: 1px solid rgba(255, 70, 70, 0.18);
+
+            color: #ff8585;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Signup */
+
+        .signup-text {
+            text-align: center;
+            margin-top: 25px;
+
+            color: #777b8d;
+            font-size: 13px;
+        }
+
+        .signup-text a {
+            color: #7887ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            display: block;
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            color: #626677;
+            text-decoration: none;
+
+            font-size: 12px;
+
+            transition: 0.2s;
+        }
+
+        .back-home:hover {
+            color: #9ba4ff;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding: 25px 0;
+            }
+
+            .login-wrapper {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .visual-panel {
+                min-height: 330px;
+                padding: 35px;
+            }
+
+            .visual-content h1 {
+                font-size: 40px;
+            }
+
+            .quote {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 45px 30px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .login-wrapper {
+                width: 94%;
+                border-radius: 20px;
+            }
+
+            .visual-panel {
+                padding: 30px;
+            }
+
+            .form-panel {
+                padding: 35px 24px;
+            }
+
+            .form-header h2 {
+                font-size: 29px;
+            }
+        }
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<div class="login-wrapper">
+
+    <!-- LEFT SIDE -->
+
+    <section class="visual-panel">
+
+        <div class="logo">
+            Libra<span>.</span>
+        </div>
+
+        <div class="visual-content">
+
+            <div class="small-text">
+                Your digital library
+            </div>
+
+            <h1>
+                Welcome<br>
+                <span>back.</span>
+            </h1>
+
+            <p>
+                Pick up where you left off. Discover new stories,
+                explore timeless classics and keep your personal
+                library close wherever you go.
+            </p>
+
+        </div>
+
+        <div class="quote">
+            "A reader lives a thousand lives before he dies."
+
+            <strong>— George R. R. Martin</strong>
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDE -->
+
+    <section class="form-panel">
+
+        <div class="form-header">
+
+            <h2>Sign in</h2>
+
+            <p>
+                Enter your credentials to continue to Libra.
+            </p>
+
+        </div>
+
+
+        <form id="loginForm">
+
+            <div class="input-group">
+
+                <label for="email">
+                    Email address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            required
+                    >
+
+                    <span class="input-icon">
+                        ✉
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            required
+                    >
+
+                    <span
+                            class="input-icon password-toggle"
+                            id="passwordToggle"
+                    >
+                        ◉
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginButton"
+            >
+                Sign in
+            </button>
+
+            <div
+                    class="error-message"
+                    id="errorMessage"
+            ></div>
+
+        </form>
+
+
+        <div class="signup-text">
+            Don't have an account?
+            <a href="/signup.html">Create one</a>
+        </div>
+
+        <a
+                href="/"
+                class="back-home"
+        >
+            ← Back to Libra
+        </a>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const passwordToggle =
+        document.getElementById("passwordToggle");
+
+
+    /* Show / hide password */
+
+    passwordToggle.addEventListener("click", () => {
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+
+            passwordToggle.textContent = "◉";
+
+        } else {
+
+            passwordInput.type = "password";
+
+            passwordToggle.textContent = "◉";
+
+        }
+
+    });
+
+
+    /* Login */
+
+    loginForm.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        errorMessage.classList.remove("show");
+        errorMessage.textContent = "";
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+
+        loginButton.classList.add("loading");
+
+        loginButton.textContent =
+            "Signing in...";
+
+
+        try {
+
+            const response = await fetch(
+                `/user/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+                {
+                    method: "POST"
+                }
+            );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Invalid email or password"
+                );
+
+            }
+
+            const loggedInUser = {
+                id: data.id,
+                name: data.name,
+                email: data.email
+            };
+
+            localStorage.setItem(
+                "loggedInUser",
+                JSON.stringify(loggedInUser)
+            );
+
+// Create a cart for this browser session
+            const cartResponse = await fetch("/cart", {
+                method: "POST"
+            });
+
+            if (!cartResponse.ok) {
+                throw new Error("Could not create cart");
+            }
+
+            const cart = await cartResponse.json();
+
+            localStorage.setItem(
+                "cartId",
+                cart.id
+            );
+
+
+            loginButton.textContent =
+                "Login successful ✓";
+
+
+            setTimeout(() => {
+
+                window.location.href = "/";
+
+            }, 500);
+
+
+        } catch (error) {
+
+            errorMessage.textContent =
+                error.message ||
+                "Something went wrong. Please try again.";
+
+            errorMessage.classList.add("show");
+
+            loginButton.classList.remove("loading");
+
+            loginButton.textContent =
+                "Sign in";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

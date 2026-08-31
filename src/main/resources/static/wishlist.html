@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Wishlist | Libra.</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                    radial-gradient(
+                            circle at 15% 20%,
+                            rgba(75, 90, 255, 0.18),
+                            transparent 30%
+                    ),
+                    radial-gradient(
+                            circle at 85% 75%,
+                            rgba(150, 70, 255, 0.14),
+                            transparent 30%
+                    ),
+                    #07080d;
+
+            color: white;
+        }
+
+
+        /* NAVBAR */
+
+        nav {
+
+            height: 82px;
+
+            padding: 0 6%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                    1px solid
+                    rgba(255,255,255,0.08);
+
+            background:
+                    rgba(7,8,13,0.65);
+
+            backdrop-filter: blur(18px);
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            letter-spacing: -1px;
+        }
+
+
+        .logo span {
+
+            color: #7184ff;
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .nav-btn {
+
+            text-decoration: none;
+
+            color: #d3ccff;
+
+            background:
+                    rgba(139, 92, 246, 0.14);
+
+            border:
+                    1px solid
+                    rgba(139, 92, 246, 0.3);
+
+            padding: 10px 17px;
+
+            border-radius: 11px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.25s;
+        }
+
+
+        .nav-btn:hover {
+
+            background:
+                    rgba(139, 92, 246, 0.25);
+
+            transform: translateY(-1px);
+        }
+
+
+        /* PAGE */
+
+        .page {
+
+            width: 88%;
+
+            max-width: 1200px;
+
+            margin:
+                    55px auto
+                    80px;
+        }
+
+
+        .page-header {
+
+            margin-bottom: 35px;
+        }
+
+
+        .eyebrow {
+
+            color: #8492ff;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 48px;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .page-header p {
+
+            color: #858797;
+
+            font-size: 15px;
+        }
+
+
+        /* WISHLIST GRID */
+
+        .wishlist-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(
+                            auto-fill,
+                            minmax(260px, 1fr)
+                    );
+
+            gap: 22px;
+        }
+
+
+        /* BOOK CARD */
+
+        .wishlist-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(255,255,255,0.065),
+                            rgba(255,255,255,0.025)
+                    );
+
+            border:
+                    1px solid
+                    rgba(255,255,255,0.08);
+
+            padding: 18px;
+
+            transition:
+                    transform 0.25s ease,
+                    border-color 0.25s ease;
+        }
+
+
+        .wishlist-card:hover {
+
+            transform: translateY(-5px);
+
+            border-color:
+                    rgba(130,140,255,0.3);
+        }
+
+
+        .book-image {
+
+            width: 100%;
+
+            height: 300px;
+
+            object-fit: cover;
+
+            border-radius: 13px;
+
+            display: block;
+
+            margin-bottom: 18px;
+
+            background:
+                    rgba(255,255,255,0.04);
+        }
+
+
+        .book-title {
+
+            color: white;
+
+            font-size: 19px;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+        }
+
+
+        .book-author {
+
+            color: #9294a4;
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .book-description {
+
+            color: #777b8c;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-bottom: 15px;
+
+            display: -webkit-box;
+
+            -webkit-line-clamp: 3;
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+        }
+
+
+        .book-price {
+
+            color: #9aa7ff;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            margin-bottom: 16px;
+        }
+
+
+        /* BUTTONS */
+
+        .card-actions {
+
+            display: flex;
+
+            gap: 9px;
+        }
+
+
+        .cart-button {
+
+            flex: 1;
+
+            border: none;
+
+            border-radius: 11px;
+
+            padding: 12px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #7086ff,
+                            #9a61ff
+                    );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+
+        .cart-button:hover {
+
+            transform: translateY(-2px);
+        }
+
+
+        .remove-button {
+
+            border: 1px solid
+            rgba(255,90,110,0.2);
+
+            border-radius: 11px;
+
+            padding: 12px 14px;
+
+            background:
+                    rgba(255,90,110,0.07);
+
+            color: #ff8998;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+
+        .remove-button:hover {
+
+            background:
+                    rgba(255,90,110,0.14);
+        }
+
+
+        /* EMPTY STATE */
+
+        .empty {
+
+            display: none;
+
+            min-height: 55vh;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            text-align: center;
+        }
+
+
+        .empty-heart {
+
+            font-size: 65px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .empty h2 {
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .empty p {
+
+            color: #858797;
+
+            margin-bottom: 25px;
+        }
+
+
+        .browse-button {
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #7086ff,
+                            #9a61ff
+                    );
+
+            padding: 13px 22px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            nav {
+
+                height: 70px;
+
+                padding: 0 5%;
+            }
+
+
+            .logo {
+
+                font-size: 24px;
+            }
+
+
+            .nav-btn {
+
+                padding:
+                        9px 12px;
+
+                font-size: 12px;
+            }
+
+
+            .page {
+
+                width: 92%;
+
+                margin-top: 35px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 38px;
+            }
+
+
+            .wishlist-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+        Libra<span>.</span>
+    </div>
+
+
+    <div class="nav-right">
+
+        <a
+                href="/index.html#books"
+                class="nav-btn"
+        >
+            📚 Browse Books
+        </a>
+
+
+        <a
+                href="/cart.html"
+                class="nav-btn"
+        >
+            🛒 Cart
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="page">
+
+
+    <div class="page-header">
+
+        <div class="eyebrow">
+            YOUR COLLECTION
+        </div>
+
+        <h1>❤️ Wishlist</h1>
+
+        <p>
+            Books you've saved for later.
+        </p>
+
+    </div>
+
+
+    <div
+            id="wishlistGrid"
+            class="wishlist-grid"
+    >
+    </div>
+
+
+    <div
+            id="emptyWishlist"
+            class="empty"
+    >
+
+        <div class="empty-heart">
+            ♡
+        </div>
+
+        <h2>
+            Your wishlist is empty
+        </h2>
+
+        <p>
+            Save books you love and come back to them later.
+        </p>
+
+        <a
+                href="/index.html#books"
+                class="browse-button"
+        >
+            Browse Books
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+    const bookImages = {
+
+        "The Alchemist":
+            "/images/alchemist.jpg",
+
+        "Atomic Habits":
+            "/images/atomic-habits.jpeg",
+
+        "Rich Dad Poor Dad":
+            "/images/rich-dad-poor-dad.jpeg",
+
+        "The Psychology of Money":
+            "/images/psychology-of-money.jpg",
+
+        "Harry Potter and the Philosopher's Stone":
+            "/images/harry-potter.jpeg",
+
+        "Ikigai":
+            "/images/ikigai.jpeg",
+
+        "The Great Gatsby":
+            "/images/great-gatsby.jpeg",
+
+        "Think and Grow Rich":
+            "/images/think-and-grow-rich.jpeg",
+
+        "The Hobbit":
+            "/images/the-hobbit.jpeg",
+
+        "Sapiens":
+            "/images/sapiens.png",
+
+        "The Kite Runner":
+            "/images/kit-runner.jpeg",
+
+        "The Book Thief":
+            "/images/book-thief.jpeg",
+
+        "Can't Hurt Me":
+            "/images/cant-hurt-me.jpeg"
+
+    };
+
+
+    function getWishlist() {
+
+        return JSON.parse(
+            localStorage.getItem("wishlist") || "[]"
+        );
+
+    }
+
+
+    function saveWishlist(wishlist) {
+
+        localStorage.setItem(
+            "wishlist",
+            JSON.stringify(wishlist)
+        );
+
+    }
+
+
+    function loadWishlist() {
+
+        const wishlist =
+            getWishlist();
+
+
+        const grid =
+            document.getElementById(
+                "wishlistGrid"
+            );
+
+
+        const empty =
+            document.getElementById(
+                "emptyWishlist"
+            );
+
+
+        grid.innerHTML = "";
+
+
+        if (wishlist.length === 0) {
+
+            grid.style.display = "none";
+
+            empty.style.display = "flex";
+
+            return;
+        }
+
+
+        grid.style.display = "grid";
+
+        empty.style.display = "none";
+
+
+        wishlist.forEach(book => {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "wishlist-card";
+
+
+            const image =
+                bookImages[book.title] ||
+                "/images/default-book.jpg";
+
+
+            card.innerHTML = `
+
+                <img
+                    class="book-image"
+                    src="${image}"
+                    alt="${book.title}"
+                >
+
+                <div class="book-title">
+                    ${book.title}
+                </div>
+
+                <div class="book-author">
+                    by ${book.author}
+                </div>
+
+                <div class="book-description">
+                    ${book.description ||
+            "No description available."}
+                </div>
+
+                <div class="book-price">
+                    ₹${Number(book.price || 0).toFixed(0)}
+                </div>
+
+                <div class="card-actions">
+
+                    <button
+                        class="cart-button"
+                        onclick="addToCart(${book.id})"
+                    >
+                        🛒 Add to Cart
+                    </button>
+
+                    <button
+                        class="remove-button"
+                        onclick="removeFromWishlist(${book.id})"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            `;
+
+
+            grid.appendChild(card);
+
+        });
+
+    }
+
+
+    async function addToCart(bookId) {
+
+        const cartId =
+            localStorage.getItem("cartId");
+
+
+        if (!cartId) {
+
+            alert(
+                "Please login or signup before adding books to your cart."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/cart/${cartId}/add?bookId=${bookId}&quantity=1`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not add book"
+                );
+
+            }
+
+
+            const cart =
+                await response.json();
+
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+
+            alert(
+                "Book added to cart! 🛒"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Could not add this book to your cart."
+            );
+
+        }
+
+    }
+
+
+    function removeFromWishlist(bookId) {
+
+        let wishlist =
+            getWishlist();
+
+
+        wishlist =
+            wishlist.filter(
+                book => book.id !== bookId
+            );
+
+
+        saveWishlist(wishlist);
+
+        loadWishlist();
+
+    }
+
+
+    loadWishlist();
+
+</script>
+
+
+</body>
+
+</html>
