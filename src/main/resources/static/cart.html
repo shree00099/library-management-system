@@ -1537,6 +1537,12 @@
 
             const order = {
 
+                username:
+                JSON.parse(localStorage.getItem("loggedInUser"))?.name,
+
+                userId:
+                JSON.parse(localStorage.getItem("loggedInUser"))?.id,
+
                 customerName:
                 document.getElementById("addressName").value,
 

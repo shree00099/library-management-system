@@ -30,4 +30,19 @@ public class UserService {
 
         return user;
     }
+    public User adminLogin(String email, String password) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Invalid admin credentials"));
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid admin credentials");
+        }
+
+        if (!"ADMIN".equalsIgnoreCase(user.getRole())) {
+            throw new RuntimeException("You are not authorized as an admin");
+        }
+
+        return user;
+    }
 }

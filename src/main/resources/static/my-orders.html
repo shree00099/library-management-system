@@ -559,8 +559,7 @@
              */
 
             const response =
-                await fetch("/orders");
-
+                await fetch(`/orders/user/${loggedInUser.id}`);
 
             if (!response.ok) {
 

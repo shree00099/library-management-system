@@ -23,4 +23,11 @@ public class UserController {
 
         return userService.login(email, password);
     }
+    @PostMapping("/admin-login")
+    public User adminLogin(
+            @RequestParam String email,
+            @RequestParam String password) {
+
+        return userService.adminLogin(email, password);
+    }
 }

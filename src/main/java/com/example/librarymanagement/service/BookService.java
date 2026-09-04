@@ -53,4 +53,18 @@ public class BookService {
 
         return bookRepository.save(book);
     }
+    public Book updateBook(Long id, Book updatedBook) {
+
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        book.setTitle(updatedBook.getTitle());
+        book.setAuthor(updatedBook.getAuthor());
+        book.setIsbn(updatedBook.getIsbn());
+        book.setPrice(updatedBook.getPrice());
+        book.setAvailable(updatedBook.isAvailable());
+        book.setDescription(updatedBook.getDescription());
+
+        return bookRepository.save(book);
+    }
 }
